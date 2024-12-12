@@ -16,6 +16,7 @@ app.post("/login", (req, res) => {
         password,
         timestamp: new Date().toISOString()
     };
+    console.log(loginData);
     
     fs.readFile("logins.json", "utf8", (err, data) => {
         let logins = [];
